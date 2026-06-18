@@ -45,8 +45,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Cash Flow Projection, KPI Scorecard, Recommendations). Fully customisable with extra slides.
   PowerPoint file output available in Option C (Cowork); Markdown outline in Options A/B.
 - **`manifest.json`** bumped to v1.3.0 (15 `agentSkills` total)
-- **README** — expanded Option C with Cowork UX explanation, added “Extending your Cowork agent”
-  section, added “Connecting to D365 Finance & Operations MCP” section
+
+### Changed
+
+- **README — Option C**: corrected Cowork description — Cowork is already built into M365 Copilot;
+  IT admins simply activate the BPA Analytics plugin from M365 Admin Center. No Cowork setup needed.
+- **README — Extending your Cowork agent**: added step-by-step guide for adding new skills
+  and PowerPoint deck generation workflow.
+- **README — Deployment table**: removed incorrect F&O MCP row (F&O Cowork is a Microsoft default
+  plugin; no custom connector configuration is needed for it).
 
 ## [Unreleased]
 

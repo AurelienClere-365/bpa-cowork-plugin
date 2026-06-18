@@ -195,7 +195,6 @@ bpa-cowork-plugin/
 | **A — Skills only** | VS Code prompts folder | Copilot answers from skill instructions (no live data) | None |
 | **B — VS Code mcp.json** | Local HTTP connection | Live DAX queries in VS Code | Azure AD (MSAL device flow) |
 | **C — M365 Copilot (Cowork)** | manifest.json upload to M365 Admin | Full plugin experience + PowerPoint creation | OAuthPluginVault (Entra ID) |
-| **+ F&O MCP** | Alongside B or C | Direct D365 F&O operational queries | Azure AD |
 
 ---
 
@@ -207,18 +206,16 @@ bpa-cowork-plugin/
 
 ---
 
-## Option C — Cowork (M365 Copilot) full setup
+## Option C — M365 Copilot (Cowork activation)
 
-> **What is Cowork?**  
-> Cowork is the Microsoft 365 Copilot extensibility platform (powered by Copilot Studio) that lets IT admins distribute packaged declarative agents as integrated apps across Teams, Outlook, and Microsoft 365 Copilot (web). A declarative agent bundles **skills** (plain-text instructions + DAX examples), **connectors** (MCP tools), and a **manifest** that tells M365 Copilot how they fit together.
->
-> Once uploaded and assigned by your M365 admin, the **BPA Analytics** agent appears directly in the Copilot sidebar. Users interact with it by natural language — no Power BI navigation, no dashboards, no exports.
+> **Cowork is already built into M365 Copilot.**  
+> Microsoft ships Cowork as part of Microsoft 365 Copilot — it is the extensibility layer that lets organisations activate third-party and custom agents alongside Microsoft’s native ones. You do not need to install or configure Cowork itself. Your **M365 Global Admin or Teams Admin** simply uploads the BPA Analytics plugin package to the M365 Admin Center and assigns it to the Finance security group. Once assigned, the plugin appears in the Copilot sidebar for your Finance users — no client-side setup required.
 
-**User experience after installation:**
+**User experience after your admin activates the plugin:**
 
-1. In M365 Copilot (web or Teams), open the Copilot panel → click **+** → find **BPA Analytics** under Integrated Apps → pin it to the sidebar.
+1. In M365 Copilot (web) or Teams, open the Copilot panel → the **BPA Analytics** agent appears in the sidebar under your organisation’s agents.
 2. Ask any finance question: *“Show me the P&L for last month”* or *“Which vendors are over budget?”*
-3. Cowork automatically selects the matching skill, calls the BPA MCP tools on behalf of the user, and streams the result in chat.
+3. M365 Copilot routes the question to the matching BPA skill, calls the BPA MCP tools on your behalf, and streams the structured result in chat.
 4. On first use, a consent screen prompts sign-in with Azure AD. The token is cached — no re-auth on subsequent sessions.
 
 ---
@@ -335,74 +332,6 @@ Add to `%APPDATA%\Code\User\mcp.json`:
 
 Then run `.\package.ps1 -SkillsOnly` to copy the skills to your VS Code prompts folder.  
 Reload VS Code — the BPA skills appear in Copilot Chat automatically.
-
----
-
-## Connecting to D365 Finance & Operations MCP
-
-The **F&O MCP** is a complementary Microsoft-hosted MCP server that provides direct access to **operational D365 Finance & Operations data** — not the aggregated BPA analytics dataset, but live transactional records: journal entries, vouchers, vendor/customer balances, open purchase orders, sales orders, and more.
-
-| | BPA Analytics MCP | F&O Operations MCP |
-|---|---|---|
-| **Server** | `msdyn_ERPAnalyticsMCPServer` | `msdyn_ERP` *(verify name — see note below)* |
-| **Data** | Pre-built BPA semantic model | Live D365 F&O transactional data |
-| **Query type** | DAX — aggregated, trend, slice/dice | OData / entity queries — record lookups, filters |
-| **Best for** | KPIs, dashboards, variance analysis | Journal details, open transactions, master data |
-| **Auth** | BPA User role + Azure AD | D365 Finance user + Azure AD |
-
-### When to use each
-
-| Ask this question… | Use |
-|---|---|
-| *"What is our EBITDA this quarter?"* | BPA MCP |
-| *"Show me journal entry JNL-2026-0441 in full detail"* | F&O MCP |
-| *"Which vendors are over budget?"* | BPA MCP |
-| *"List all open purchase orders for Fabrikam"* | F&O MCP |
-| *"What is the DSO trend for the last 6 months?"* | BPA MCP |
-| *"Show me the current outstanding balance for Contoso Ltd"* | F&O MCP |
-| *"Budget vs actuals for the fiscal year"* | BPA MCP |
-| *"Post a reversing journal entry for period close"* | F&O MCP |
-
-### Adding F&O MCP to VS Code (`mcp.json`)
-
-```jsonc
-{
-  "servers": {
-    "BPA-Analytics": {
-      "url": "https://agent365.svc.cloud.microsoft/mcp/environments/YOUR_ENVIRONMENT_ID/servers/msdyn_ERPAnalyticsMCPServer",
-      "type": "http"
-    },
-    "FO-Operations": {
-      "url": "https://agent365.svc.cloud.microsoft/mcp/environments/YOUR_ENVIRONMENT_ID/servers/msdyn_ERP",
-      "type": "http"
-    }
-  }
-}
-```
-
-### Adding F&O MCP to Cowork (`manifest.json`)
-
-Add a second entry to the `agentConnectors` array:
-
-```json
-{
-  "id": "fo-operations",
-  "displayName": "D365 F&O Operations MCP",
-  "description": "Direct connection to D365 Finance operational data. Use for transactional lookups, journal entry details, open purchase orders, vendor balances, and sales order status.",
-  "toolSource": {
-    "remoteMcpServer": {
-      "mcpServerUrl": "https://agent365.svc.cloud.microsoft/mcp/environments/YOUR_ENVIRONMENT_ID/servers/msdyn_ERP",
-      "authorizationType": "OAuthPluginVault",
-      "oAuth2AuthCodeFlow": {
-        "referenceId": "YOUR_OAUTH_REGISTRATION_ID",
-        "scopes": ["https://service.powerapps.com/.default"]
-      }
-    }
-  }
-}
-```
-
-> ⚠️ **Verify the server name**: The F&O MCP server identifier (`msdyn_ERP`) and the list of available tools evolve with each Microsoft release. Always confirm the current server name and capabilities in [Microsoft Learn — Dynamics 365 Finance Copilot](https://learn.microsoft.com/dynamics365/finance/copilot/copilot-finance-overview) before connecting.
 
 ---
 

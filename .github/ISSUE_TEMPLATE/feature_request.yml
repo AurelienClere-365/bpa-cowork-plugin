@@ -1,0 +1,55 @@
+name: Feature request
+description: Suggest a new skill or improvement to the BPA Analytics Cowork Plugin
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting an improvement! New skills for BPA domains not yet covered (e.g. Supply Chain, Inventory, Fixed Assets) are especially welcome.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the finance use case or pain point.
+      placeholder: "As a Controller, I want to see fixed asset depreciation schedules without leaving my AI assistant."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: How should the new skill or improvement work?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: domain
+    attributes:
+      label: BPA domain
+      options:
+        - "Record-to-Report (R2R)"
+        - "Procure-to-Pay (P2P)"
+        - "Order-to-Cash (O2C)"
+        - "All / cross-domain"
+        - "Other"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: persona
+    attributes:
+      label: Target persona
+      multiple: true
+      options:
+        - "CFO / Finance Director"
+        - "Finance Controller"
+        - "FP&A Analyst"
+        - "AR Manager"
+        - "AP Manager"
+        - "Procurement / CPO"
+        - "Shared Services"
+        - "Board / Audit"
+    validations:
+      required: false

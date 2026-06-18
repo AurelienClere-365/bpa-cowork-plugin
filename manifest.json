@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.28",
+  "version": "1.0.0",
+  "id": "a3c7f82e-5b14-4d9a-8e31-0f6c2d7b4e95",
+  "developer": {
+    "name": "Aurelien Clere",
+    "websiteUrl": "https://github.com/AurelienClere-365/bpa-cowork-plugin",
+    "privacyUrl": "https://github.com/AurelienClere-365/bpa-cowork-plugin/blob/main/PRIVACY.md",
+    "termsOfUseUrl": "https://github.com/AurelienClere-365/bpa-cowork-plugin/blob/main/LICENSE"
+  },
+  "name": {
+    "short": "BPA Analytics",
+    "full": "D365 Business Performance Analytics Cowork Plugin"
+  },
+  "description": {
+    "short": "Financial analytics for CFO and Finance teams via D365 BPA.",
+    "full": "Connects Microsoft 365 Copilot and VS Code to Dynamics 365 Business Performance Analytics. Delivers AI-assisted financial analysis for CFO, Controllers, FP&A, and Finance teams: P&L and profitability, cash flow and AR/AP aging, budget vs actuals variance, vendor spend and procurement, period-end close tracking, and CFO-level KPI dashboards. Uses live DAX queries against your BPA dataset — no manual exports needed."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#0078d4",
+  "agentSkills": [
+    {"folder": "./skills/bpa-financial-performance"},
+    {"folder": "./skills/bpa-cash-flow-ar-ap"},
+    {"folder": "./skills/bpa-budget-variance"},
+    {"folder": "./skills/bpa-vendor-performance"},
+    {"folder": "./skills/bpa-period-close"},
+    {"folder": "./skills/bpa-executive-kpis"}
+  ],
+  "agentConnectors": [
+    {
+      "id": "bpa-erp-analytics",
+      "displayName": "D365 BPA Analytics MCP",
+      "description": "Remote MCP connector to the Microsoft-hosted Business Performance Analytics MCP server. Provides live DAX query execution and schema discovery across Record-to-Report, Procure-to-Pay, and Order-to-Cash datasets.",
+      "toolSource": {
+        "remoteMcpServer": {
+          "mcpServerUrl": "https://agent365.svc.cloud.microsoft/mcp/environments/YOUR_ENVIRONMENT_ID/servers/msdyn_ERPAnalyticsMCPServer",
+          "mcpToolDescription": {
+            "file": "bpa-mcp-tools.json"
+          },
+          "authorization": {
+            "type": "OAuthPluginVault",
+            "referenceId": "YOUR_OAUTH_REGISTRATION_ID"
+          }
+        }
+      }
+    }
+  ],
+  "permissions": [],
+  "validDomains": []
+}

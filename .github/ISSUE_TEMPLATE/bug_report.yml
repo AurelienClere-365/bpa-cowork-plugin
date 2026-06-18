@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a problem with a skill, validation, or the packaging script
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Please fill in the details below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this?
+      placeholder: |
+        1. Run `.\package.ps1`
+        2. Observed output: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      placeholder: "e.g. 1.0.0"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: deployment
+    attributes:
+      label: Deployment option
+      options:
+        - "A — Skills only"
+        - "B — VS Code mcp.json"
+        - "C — M365 Copilot"
+        - "Not applicable"
+    validations:
+      required: false

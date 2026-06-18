@@ -1,0 +1,81 @@
+flowchart LR
+
+    %% ── LAYER 1 — USERS ────────────────────────────────────────────────────
+    subgraph USERS["👥  Users"]
+        direction TB
+        CFO(["💼  CFO / Finance Director\nKPI dashboard · scorecard\nboard report · EBITDA"])
+        CTRL(["📊  Finance Controller\nP&L · trial balance\nperiod close · recon"])
+        FPA(["📈  FP&A Analyst\nBudget vs actuals\nvariance · forecast"])
+        ARAP(["🧾  AR / AP Manager\nAging · DSO · DPO\noverdue invoices"])
+        PROC(["🛒  Procurement\nVendor spend · OTIF\ncategory analysis"])
+    end
+
+    %% ── LAYER 2 — PLUGIN SKILLS ─────────────────────────────────────────────
+    subgraph PLUGIN["🔌  BPA Analytics Cowork Plugin  —  6 SKILL.md files"]
+        direction TB
+        subgraph R2R["Record-to-Report  ★"]
+            S1["bpa-financial-performance\nP&L · gross margin · EBITDA"]
+            S2["bpa-budget-variance\nBudget vs actuals · variance"]
+            S3["bpa-period-close\nClose checklist · subledger recon"]
+            S6["bpa-executive-kpis\nCFO dashboard · scorecard"]
+        end
+        subgraph P2P["Procure-to-Pay"]
+            S4["bpa-vendor-performance\nVendor spend · OTIF · categories"]
+        end
+        subgraph O2C["Order-to-Cash"]
+            S5["bpa-cash-flow-ar-ap\nAR/AP aging · DSO · DPO"]
+        end
+    end
+
+    %% ── LAYER 3 — DEPLOYMENT ────────────────────────────────────────────────
+    subgraph DEPLOY["⚙️  Deployment options"]
+        direction TB
+        OA["A — Skills-only\nPrompts folder copy\nNo server needed"]
+        OB["B — VS Code mcp.json\ntype: http · Azure AD\nLocal MCP connection"]
+        OC["C — M365 Copilot\nmanifest.json upload\nOAuthPluginVault"]
+    end
+
+    %% ── LAYER 4 — MCP SERVER ────────────────────────────────────────────────
+    subgraph MCPSVR["☁️  BPA MCP Server  (Microsoft-hosted · Power Platform)"]
+        direction TB
+        EP["agent365.svc.cloud.microsoft/mcp/.../msdyn_ERPAnalyticsMCPServer\nAzure AD auth · BPA User role required"]
+        subgraph TOOLS["2 MCP tools"]
+            direction LR
+            T1["get_bpa_dataset_schema\nDiscover tables & columns"]
+            T2["execute_dax_query\nRun DAX EVALUATE queries"]
+        end
+        EP --> T1 & T2
+    end
+
+    %% ── LAYER 5 — BPA DATA ──────────────────────────────────────────────────
+    subgraph BPA["🗄️  Dynamics 365 Business Performance Analytics"]
+        direction TB
+        D1["📋 Record-to-Report\nGeneral Ledger · Trial Balance\nP&L · Budget · Close status"]
+        D2["🛒 Procure-to-Pay\nVendor Invoices · POs\nAP Aging · Categories"]
+        D3["💰 Order-to-Cash\nCustomer Invoices\nAR Aging · Revenue"]
+    end
+
+    %% ── EDGES ───────────────────────────────────────────────────────────────
+    CFO & CTRL & FPA & ARAP & PROC -->|"plain-English prompt"| PLUGIN
+    PLUGIN --> OA & OB & OC
+    OB -->|"HTTP · Azure AD"| EP
+    OC -->|"HTTP · OAuthPluginVault"| EP
+    T1 & T2 <-->|"DAX / Power BI REST"| D1 & D2 & D3
+
+    %% ── STYLES ──────────────────────────────────────────────────────────────
+    classDef user   fill:#1e3a5f,stroke:#4fa3e0,color:#cce5ff
+    classDef r2r    fill:#0d3068,stroke:#4fa3e0,color:#fff
+    classDef p2p    fill:#1a2a3a,stroke:#4fa3e0,color:#cce5ff
+    classDef o2c    fill:#0a2040,stroke:#4fa3e0,color:#cce5ff
+    classDef deploy fill:#1e3a1e,stroke:#6abf69,color:#cfffce
+    classDef ep     fill:#003366,stroke:#4fa3e0,color:#fff
+    classDef tool   fill:#001a33,stroke:#4fa3e0,color:#99ccff
+    classDef bpa    fill:#005a9e,stroke:#4fa3e0,color:#fff
+    class CFO,CTRL,FPA,ARAP,PROC user
+    class S1,S2,S3,S6 r2r
+    class S4 p2p
+    class S5 o2c
+    class OA,OB,OC deploy
+    class EP ep
+    class T1,T2 tool
+    class D1,D2,D3 bpa

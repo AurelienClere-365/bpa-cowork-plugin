@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.1/schema.json",
+  "schema_version": "v2.1",
+  "name_for_human": "D365 BPA Analytics MCP",
+  "name_for_model": "D365BPAAnalyticsMCP",
+  "description_for_human": "Access Dynamics 365 Business Performance Analytics data through natural language DAX queries.",
+  "description_for_model": "Tools provided by the Microsoft-hosted Business Performance Analytics (BPA) MCP server. Enables direct DAX query execution against the BPA Power BI dataset and schema discovery. Covers financial data across three business domains: Record-to-Report (general ledger, P&L, trial balance, period-close status), Procure-to-Pay (vendor invoices, AP aging, purchase orders, procurement categories), and Order-to-Cash (customer invoices, AR aging, revenue recognition). Use get_bpa_dataset_schema first to discover table and column names, then execute_dax_query to run targeted financial queries.",
+  "tools": [
+    {
+      "name": "get_bpa_dataset_schema",
+      "description": "Returns the full schema of the BPA Power BI dataset — all tables, columns, and their data types. Call this before constructing a DAX query to discover the correct table and column names. The schema covers Record-to-Report, Procure-to-Pay, and Order-to-Cash data marts."
+    },
+    {
+      "name": "execute_dax_query",
+      "description": "Executes a DAX EVALUATE query against the BPA dataset and returns the result as a structured table. Use for P&L analysis, cash flow metrics, AR/AP aging, budget vs actuals variance, vendor performance, period-close status, and CFO KPI dashboards. Always retrieve the schema first with get_bpa_dataset_schema to ensure correct table and column references."
+    }
+  ]
+}

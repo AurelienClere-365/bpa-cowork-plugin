@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
   "manifestVersion": "1.28",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "id": "a3c7f82e-5b14-4d9a-8e31-0f6c2d7b4e95",
   "developer": {
     "name": "Aurelien Clere",
@@ -15,7 +15,7 @@
   },
   "description": {
     "short": "Financial analytics for CFO and Finance teams via D365 BPA.",
-    "full": "Connects Microsoft 365 Copilot and VS Code to Dynamics 365 Business Performance Analytics. Delivers AI-assisted financial analysis for CFO, Controllers, FP&A, and Finance teams: P&L and profitability, cash flow and AR/AP aging, budget vs actuals variance, vendor spend and procurement, period-end close tracking, and CFO-level KPI dashboards. Uses live DAX queries against your BPA dataset — no manual exports needed."
+    "full": "Connects Microsoft 365 Copilot and VS Code to Dynamics 365 Business Performance Analytics. Delivers AI-assisted financial analysis for CFO, Controllers, FP&A, and Finance teams across 10 skills: P&L and profitability, cash flow projection, AR/AP aging, budget variance, spending behaviour analysis, intercompany reconciliation, vendor performance, period-end close, ROI and capital scenarios, and CFO-level KPI dashboards. Uses live DAX queries against your BPA dataset — no manual exports needed."
   },
   "icons": {
     "color": "color.png",
@@ -28,7 +28,11 @@
     {"folder": "./skills/bpa-budget-variance"},
     {"folder": "./skills/bpa-vendor-performance"},
     {"folder": "./skills/bpa-period-close"},
-    {"folder": "./skills/bpa-executive-kpis"}
+    {"folder": "./skills/bpa-executive-kpis"},
+    {"folder": "./skills/bpa-intercompany"},
+    {"folder": "./skills/bpa-cash-flow-projection"},
+    {"folder": "./skills/bpa-spending-behavior"},
+    {"folder": "./skills/bpa-roi-capital"}
   ],
   "agentConnectors": [
     {

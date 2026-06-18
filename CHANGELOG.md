@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] — 2026-06-18
+
+### Added
+
+- **4 new ASKILL-validated skills** for advanced finance personas, inspired by
+  [Natalia Salas' blog post on D365 ERP Analytics MCP prompts](https://natisalas.com/2026/06/17/dyn365-erp-analytics-mcp-4-financials-4-prompts/):
+  - `bpa-intercompany` — GL summary by entity/account type, purchase activity, anomaly detection
+    (negative expense balances, invoices w/o POs, open POs w/o invoices) — persona: Senior Analyst
+  - `bpa-cash-flow-projection` — 30/60/90-day AR/AP projection, FX conversion, CRITICAL/MODERATE/LOW
+    liquidity gap classification, pessimistic collection scenario — persona: Manager / Treasurer
+  - `bpa-spending-behavior` — Month-by-month actual vs budget, causal factor analysis
+    (internal/external), annual over-execution risk, corrective recommendations — persona: FP&A Director
+  - `bpa-roi-capital` — Investment ROI by category vs prior period, revenue budget execution,
+    free capital calculation, three-scenario viability analysis (conservative/base/optimistic) — persona: CFO
+- **`manifest.json`** bumped to v1.1.0 with 4 additional `agentSkills` entries
+- **`EXAMPLES.md`** — 4 new worked examples (17–20) covering each new skill
+
 ## [Unreleased]
 
 _Nothing yet._

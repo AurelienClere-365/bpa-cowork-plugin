@@ -139,7 +139,11 @@ bpa-cowork-plugin/
     ├── bpa-budget-variance/SKILL.md         Budget vs actuals, FP&A variance
     ├── bpa-vendor-performance/SKILL.md      Vendor spend, OTIF, procurement
     ├── bpa-period-close/SKILL.md            Period-close status, subledger recon
-    └── bpa-executive-kpis/SKILL.md          CFO dashboard, board KPIs, scorecard
+    ├── bpa-executive-kpis/SKILL.md          CFO dashboard, board KPIs, scorecard
+    ├── bpa-intercompany/SKILL.md            Intercompany GL, anomaly detection
+    ├── bpa-cash-flow-projection/SKILL.md    30/60/90-day projection, liquidity gap
+    ├── bpa-spending-behavior/SKILL.md       Spend vs budget, causal analysis
+    └── bpa-roi-capital/SKILL.md             ROI, budget execution, capital scenarios
 ```
 
 ---
@@ -154,6 +158,10 @@ bpa-cowork-plugin/
 | `bpa-vendor-performance` | Procure-to-Pay | Procurement, AP |
 | `bpa-period-close` | Record-to-Report | Controller, Shared Services |
 | `bpa-executive-kpis` | All three domains | CFO, Board |
+| `bpa-intercompany` | Record-to-Report, Procure-to-Pay | Senior Analyst, Controller |
+| `bpa-cash-flow-projection` | Order-to-Cash, Procure-to-Pay | Manager, Treasurer |
+| `bpa-spending-behavior` | Record-to-Report | FP&A Director, Operational Director |
+| `bpa-roi-capital` | All three domains | CFO, Finance Director |
 
 ---
 

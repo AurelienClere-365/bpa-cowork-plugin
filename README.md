@@ -1,9 +1,6 @@
 # BPA Analytics Cowork Plugin
 
-> AI skills for CFO & Finance teams — connects GitHub Copilot and M365 Copilot to Dynamics 365 Business Performance Analytics via live DAX queries.
-
-> **AI-assisted financial analytics for CFO, Controllers, FP&A, and Finance teams**  
-> Connect Microsoft 365 Copilot or VS Code to Dynamics 365 Business Performance Analytics — live DAX queries, no manual exports.
+> **14 AI skills for CFO & Finance teams** — connects GitHub Copilot and M365 Copilot to Dynamics 365 Business Performance Analytics via live DAX queries. No dashboards, no exports.
 
 ---
 
@@ -16,12 +13,14 @@
 | **FP&A Analyst** | Budget vs actuals variance, trend analysis, forecast vs actual |
 | **AP / Procurement** | Vendor spend ranking, OTIF, AP aging, DPO monitoring |
 | **AR / Revenue** | AR aging by bucket, DSO trend, overdue invoice alerts |
+| **Revenue Manager** | Revenue by customer/product, Pareto concentration risk, YoY growth trends |
+| **Asset Controller** | Fixed asset register, net book value, depreciation run, capex execution rate |
 
 ---
 
 ## What this plugin does
 
-The BPA Analytics Cowork Plugin provides **6 AI skills** that translate plain-English finance questions into DAX queries executed directly against your **Dynamics 365 Business Performance Analytics** Power BI dataset.
+The BPA Analytics Cowork Plugin provides **14 AI skills** that translate plain-English finance questions into DAX queries executed directly against your **Dynamics 365 Business Performance Analytics** Power BI dataset.
 
 ```
 Finance question  ──►  BPA skill       ──►  BPA MCP tools    ──►  Structured result
@@ -41,24 +40,36 @@ flowchart LR
         direction TB
         CFO(["💼  CFO / Finance Director\nKPI dashboard · scorecard\nboard report · EBITDA"])
         CTRL(["📊  Finance Controller\nP&L · trial balance\nperiod close · recon"])
-        FPA(["📈  FP&A Analyst\nBudget vs actuals\nvariance · forecast"])
-        ARAP(["🧾  AR / AP Manager\nAging · DSO · DPO\noverdue invoices"])
+        FPA(["📈  FP&A / Director\nBudget vs actuals\nspending behaviour"])
+        ARAP(["🧾  AR / AP / Treasurer\nAging · DSO · DPO\ncash flow projection"])
         PROC(["🛒  Procurement\nVendor spend · OTIF\ncategory analysis"])
+        REV(["💹  Revenue Manager\nRevenue by customer\nPareto · growth"])
+        ASSET(["🏭  Asset Controller\nNBV · depreciation\ncapex execution"])
     end
 
-    subgraph PLUGIN["🔌  BPA Analytics Cowork Plugin  —  6 SKILL.md files"]
+    subgraph PLUGIN["🔌  BPA Analytics Cowork Plugin  —  14 SKILL.md files"]
         direction TB
-        subgraph R2R["Record-to-Report  ★"]
+        subgraph R2R["Record-to-Report"]
             S1["bpa-financial-performance\nP&L · gross margin · EBITDA"]
             S2["bpa-budget-variance\nBudget vs actuals · variance"]
             S3["bpa-period-close\nClose checklist · subledger recon"]
             S6["bpa-executive-kpis\nCFO dashboard · scorecard"]
+            S7["bpa-intercompany\nGL by entity · anomaly detection"]
+            S9["bpa-spending-behavior\nSpend vs budget · causal analysis"]
+            S11["bpa-cost-center-profitability\nCost center P&L · margin"]
+            S14["bpa-fixed-assets-capex\nNBV · depreciation · capex"]
         end
         subgraph P2P["Procure-to-Pay"]
             S4["bpa-vendor-performance\nVendor spend · OTIF · categories"]
+            S8["bpa-cash-flow-projection\n30/60/90-day · liquidity gap"]
         end
         subgraph O2C["Order-to-Cash"]
             S5["bpa-cash-flow-ar-ap\nAR/AP aging · DSO · DPO"]
+            S13["bpa-revenue-analysis\nRevenue by customer · Pareto"]
+        end
+        subgraph CROSS["Cross-domain"]
+            S10["bpa-roi-capital\nROI · budget execution · scenarios"]
+            S12["bpa-working-capital\nCCC · DSO/DIO/DPO · NWC"]
         end
     end
 
@@ -87,7 +98,7 @@ flowchart LR
         D3["💰 Order-to-Cash\nCustomer Invoices · AR Aging"]
     end
 
-    CFO & CTRL & FPA & ARAP & PROC -->|"plain-English prompt"| PLUGIN
+    CFO & CTRL & FPA & ARAP & PROC & REV & ASSET -->|"plain-English prompt"| PLUGIN
     PLUGIN --> OA & OB & OC
     OB -->|"HTTP · Azure AD"| EP
     OC -->|"HTTP · OAuthPluginVault"| EP
@@ -98,14 +109,16 @@ flowchart LR
     classDef r2r    fill:#0d3068,stroke:#4fa3e0,color:#fff
     classDef p2p    fill:#1a2a3a,stroke:#4fa3e0,color:#cce5ff
     classDef o2c    fill:#0a2040,stroke:#4fa3e0,color:#cce5ff
+    classDef cross  fill:#0d2040,stroke:#6abf69,color:#cfffce
     classDef deploy fill:#1e3a1e,stroke:#6abf69,color:#cfffce
     classDef ep     fill:#003366,stroke:#4fa3e0,color:#fff
     classDef tool   fill:#001a33,stroke:#4fa3e0,color:#99ccff
     classDef bpa    fill:#005a9e,stroke:#4fa3e0,color:#fff
-    class CFO,CTRL,FPA,ARAP,PROC user
-    class S1,S2,S3,S6 r2r
-    class S4 p2p
-    class S5 o2c
+    class CFO,CTRL,FPA,ARAP,PROC,REV,ASSET user
+    class S1,S2,S3,S6,S7,S9,S11,S14 r2r
+    class S4,S8 p2p
+    class S5,S13 o2c
+    class S10,S12 cross
     class OA,OB,OC deploy
     class EP ep
     class T1,T2 tool

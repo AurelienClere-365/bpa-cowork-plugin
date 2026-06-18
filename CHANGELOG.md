@@ -36,6 +36,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`manifest.json`** bumped to v1.2.0 with 14 total `agentSkills` entries
 - **`EXAMPLES.md`** — 4 new worked examples (21–24) covering each new skill
 
+## [1.3.0] — 2026-06-18
+
+### Added
+
+- **`bpa-ppt-report`** — Orchestration skill that chains BPA data retrieval with M365 Copilot’s native
+  PowerPoint creation to produce board-ready financial decks (Cover, P&L, Budget Variance,
+  Cash Flow Projection, KPI Scorecard, Recommendations). Fully customisable with extra slides.
+  PowerPoint file output available in Option C (Cowork); Markdown outline in Options A/B.
+- **`manifest.json`** bumped to v1.3.0 (15 `agentSkills` total)
+- **README** — expanded Option C with Cowork UX explanation, added “Extending your Cowork agent”
+  section, added “Connecting to D365 Finance & Operations MCP” section
+
 ## [Unreleased]
 
 _Nothing yet._

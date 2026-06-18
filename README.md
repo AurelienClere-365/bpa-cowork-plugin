@@ -169,10 +169,9 @@ bpa-cowork-plugin/
 
 ## Licence requirements
 
+- **Dynamics 365 Finance** licence (includes BPA access).
 - **BPA User** role assigned in the Power Platform environment where BPA is deployed.
-- **D365 Finance — Basic User** (minimum) or **Finance Reporting** security role.
-- Active **Power BI Pro** or **Premium Per User** licence for the BPA environment.
-- For Option C: M365 Copilot licence with Cowork plugin admin upload rights.
+- For Option C (M365 Copilot): **Microsoft 365 Copilot** licence + **Copilot Studio capacity** (message credits) — required since Cowork reached general availability.
 
 ---
 

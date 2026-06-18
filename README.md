@@ -1,6 +1,6 @@
 # BPA Analytics Cowork Plugin
 
-> **14 AI skills for CFO & Finance teams** — connects GitHub Copilot and M365 Copilot to Dynamics 365 Business Performance Analytics via live DAX queries. No dashboards, no exports.
+> **15 AI skills for CFO & Finance teams** — connects GitHub Copilot and M365 Copilot to Dynamics 365 Business Performance Analytics via live DAX queries. No dashboards, no exports.
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## What this plugin does
 
-The BPA Analytics Cowork Plugin provides **14 AI skills** that translate plain-English finance questions into DAX queries executed directly against your **Dynamics 365 Business Performance Analytics** Power BI dataset.
+The BPA Analytics Cowork Plugin provides **15 AI skills** that translate plain-English finance questions into DAX queries executed directly against your **Dynamics 365 Business Performance Analytics** Power BI dataset.
 
 ```
 Finance question  ──►  BPA skill       ──►  BPA MCP tools    ──►  Structured result
@@ -160,7 +160,8 @@ bpa-cowork-plugin/
     ├── bpa-cost-center-profitability/SKILL.md  Cost center P&L, dept margin, allocation
     ├── bpa-working-capital/SKILL.md         CCC, DSO/DIO/DPO, NWC ratios
     ├── bpa-revenue-analysis/SKILL.md        Revenue by customer/product, Pareto, growth
-    └── bpa-fixed-assets-capex/SKILL.md      Fixed assets NBV, depreciation, capex vs opex
+    ├── bpa-fixed-assets-capex/SKILL.md      Fixed assets NBV, depreciation, capex vs opex
+    └── bpa-ppt-report/SKILL.md              PowerPoint board deck orchestrator (Cowork)
 ```
 
 ---
@@ -183,6 +184,7 @@ bpa-cowork-plugin/
 | `bpa-working-capital` | O2C, P2P, Record-to-Report | Treasurer, Finance Director |
 | `bpa-revenue-analysis` | Order-to-Cash | Revenue Manager, Sales Finance, CFO |
 | `bpa-fixed-assets-capex` | Record-to-Report | Asset Controller, Finance Controller |
+| `bpa-ppt-report` | All domains (orchestrator) | CFO, Finance Director, Board |
 
 ---
 
@@ -192,7 +194,7 @@ bpa-cowork-plugin/
 |---|---|---|---|
 | **A — Skills only** | VS Code prompts folder | Copilot answers from skill instructions (no live data) | None |
 | **B — VS Code mcp.json** | Local HTTP connection | Live DAX queries in VS Code | Azure AD (MSAL device flow) |
-| **C — M365 Copilot** | manifest.json upload to M365 Admin | Full plugin experience | OAuthPluginVault (Entra ID) |
+| **C — M365 Copilot (Cowork)** | manifest.json upload to M365 Admin | Full plugin experience + PowerPoint creation | OAuthPluginVault (Entra ID) |
 
 ---
 
@@ -204,7 +206,19 @@ bpa-cowork-plugin/
 
 ---
 
-## Option C — Step-by-step setup
+## Option C — M365 Copilot (Cowork activation)
+
+> **Cowork is already built into M365 Copilot.**  
+> Microsoft ships Cowork as part of Microsoft 365 Copilot — it is the extensibility layer that lets organisations activate third-party and custom agents alongside Microsoft’s native ones. You do not need to install or configure Cowork itself. Your **M365 Global Admin or Teams Admin** simply uploads the BPA Analytics plugin package to the M365 Admin Center and assigns it to the Finance security group. Once assigned, the plugin appears in the Copilot sidebar for your Finance users — no client-side setup required.
+
+**User experience after your admin activates the plugin:**
+
+1. In M365 Copilot (web) or Teams, open the Copilot panel → the **BPA Analytics** agent appears in the sidebar under your organisation’s agents.
+2. Ask any finance question: *“Show me the P&L for last month”* or *“Which vendors are over budget?”*
+3. M365 Copilot routes the question to the matching BPA skill, calls the BPA MCP tools on your behalf, and streams the structured result in chat.
+4. On first use, a consent screen prompts sign-in with Azure AD. The token is cached — no re-auth on subsequent sessions.
+
+---
 
 ### 1. Prepare the manifest
 
@@ -246,6 +260,58 @@ When the plugin first calls the BPA MCP server, M365 Copilot will prompt for con
 ### 7. Updating the plugin
 
 Bump `version` in `manifest.json`, run `.\package.ps1`, re-upload the ZIP in M365 Admin Center. Assigned users receive the update automatically.
+
+---
+
+## Extending your Cowork agent
+
+### Adding a new BPA skill
+
+1. Create a folder under `skills/` — e.g. `skills/bpa-supply-chain/`.
+2. Add `SKILL.md` with valid ASKILL frontmatter (`name:`, `description:`, `license: MIT`) and a body ≥ 200 characters.
+3. Document the DAX workflow following the same pattern as existing skills.
+4. Add `{"folder": "./skills/bpa-supply-chain"}` to `agentSkills` in `manifest.json`.
+5. Bump `version` in `manifest.json`.
+6. Run `.\package.ps1` — all ASKILL checks must pass.
+7. Re-upload the ZIP in M365 Admin Center.
+
+### Creating a PowerPoint board deck from BPA data
+
+M365 Copilot can natively create PowerPoint presentations and save them to OneDrive. You can chain BPA data retrieval with Copilot’s deck-creation capability to produce board-ready financial presentations directly from live data — with a single prompt.
+
+**How it works in Cowork:**
+
+```
+User: “Create a CFO board deck with Q2 2026 financial highlights.”
+  │
+  ├── bpa-ppt-report skill activates
+  ├── Step 1: fetches P&L from bpa-financial-performance → execute_dax_query
+  ├── Step 2: fetches budget variance from bpa-budget-variance → execute_dax_query
+  ├── Step 3: fetches 90-day outlook from bpa-cash-flow-projection → execute_dax_query
+  ├── Step 4: fetches KPI scorecard from bpa-executive-kpis → execute_dax_query
+  └── Step 5: instructs M365 Copilot to create a .pptx in OneDrive → link returned in chat
+```
+
+This repo includes the ready-to-use `bpa-ppt-report` skill ([skills/bpa-ppt-report/SKILL.md](skills/bpa-ppt-report/SKILL.md)) which handles the orchestration and slide template instruction layer.
+
+**Default output — 6-slide deck:**
+
+| Slide | Content | BPA source |
+|---|---|---|
+| 1 | Cover — company, period, date | — |
+| 2 | P&L summary — Revenue, Gross Margin, EBITDA, Net Income | bpa-financial-performance |
+| 3 | Budget vs actuals — YTD variance waterfall | bpa-budget-variance |
+| 4 | Cash flow outlook — 30/60/90 days | bpa-cash-flow-projection |
+| 5 | CFO KPI scorecard — RAG status | bpa-executive-kpis |
+| 6 | AI-generated recommendations + next steps | AI reasoning |
+
+**Example prompts:**
+
+> *“Create a board presentation with this month’s KPIs.”*  
+> *“Generate a CFO deck for H1 2026 with revenue breakdown and budget variance.”*  
+> *“Build a QBR presentation for the Finance Director — include working capital metrics.”*
+
+> **Note**: PowerPoint file creation requires Option C (M365 Copilot / Cowork). In Options A and B, the skill outputs a structured Markdown outline that you can paste into Copilot in the PowerPoint app to generate the deck.
 
 ---
 

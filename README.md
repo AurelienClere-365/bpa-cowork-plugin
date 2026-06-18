@@ -143,7 +143,11 @@ bpa-cowork-plugin/
     ├── bpa-intercompany/SKILL.md            Intercompany GL, anomaly detection
     ├── bpa-cash-flow-projection/SKILL.md    30/60/90-day projection, liquidity gap
     ├── bpa-spending-behavior/SKILL.md       Spend vs budget, causal analysis
-    └── bpa-roi-capital/SKILL.md             ROI, budget execution, capital scenarios
+    ├── bpa-roi-capital/SKILL.md             ROI, budget execution, capital scenarios
+    ├── bpa-cost-center-profitability/SKILL.md  Cost center P&L, dept margin, allocation
+    ├── bpa-working-capital/SKILL.md         CCC, DSO/DIO/DPO, NWC ratios
+    ├── bpa-revenue-analysis/SKILL.md        Revenue by customer/product, Pareto, growth
+    └── bpa-fixed-assets-capex/SKILL.md      Fixed assets NBV, depreciation, capex vs opex
 ```
 
 ---
@@ -162,6 +166,10 @@ bpa-cowork-plugin/
 | `bpa-cash-flow-projection` | Order-to-Cash, Procure-to-Pay | Manager, Treasurer |
 | `bpa-spending-behavior` | Record-to-Report | FP&A Director, Operational Director |
 | `bpa-roi-capital` | All three domains | CFO, Finance Director |
+| `bpa-cost-center-profitability` | Record-to-Report | Management Accountant, Controller |
+| `bpa-working-capital` | O2C, P2P, Record-to-Report | Treasurer, Finance Director |
+| `bpa-revenue-analysis` | Order-to-Cash | Revenue Manager, Sales Finance, CFO |
+| `bpa-fixed-assets-capex` | Record-to-Report | Asset Controller, Finance Controller |
 
 ---
 

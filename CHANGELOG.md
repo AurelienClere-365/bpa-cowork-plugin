@@ -24,6 +24,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`manifest.json`** bumped to v1.1.0 with 4 additional `agentSkills` entries
 - **`EXAMPLES.md`** — 4 new worked examples (17–20) covering each new skill
 
+## [1.2.0] — 2026-06-18
+
+### Added
+
+- **4 new ASKILL-validated skills** covering management accounting, working capital, revenue analysis, and fixed assets:
+  - `bpa-cost-center-profitability` — Cost center P&L, contribution margin, overhead allocation, budget variance per department — persona: Management Accountant / Controller
+  - `bpa-working-capital` — Cash Conversion Cycle (CCC = DSO + DIO − DPO), net working capital, current/quick ratios, optimization levers with cash release estimates — persona: Treasurer / Finance Director
+  - `bpa-revenue-analysis` — Revenue by customer/product/geography, TOPN ranking, Pareto/concentration risk, YoY growth, mix shift — persona: Revenue Manager / Sales Finance / CFO
+  - `bpa-fixed-assets-capex` — Fixed asset register NBV, depreciation schedule, fully-depreciated-but-in-service flag, capex vs opex split, capex execution rate — persona: Asset Controller / Finance Controller
+- **`manifest.json`** bumped to v1.2.0 with 14 total `agentSkills` entries
+- **`EXAMPLES.md`** — 4 new worked examples (21–24) covering each new skill
+
 ## [Unreleased]
 
 _Nothing yet._

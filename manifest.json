@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.28/MicrosoftTeams.schema.json",
   "manifestVersion": "1.28",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "id": "a3c7f82e-5b14-4d9a-8e31-0f6c2d7b4e95",
   "developer": {
     "name": "Aurelien Clere",
@@ -32,7 +32,11 @@
     {"folder": "./skills/bpa-intercompany"},
     {"folder": "./skills/bpa-cash-flow-projection"},
     {"folder": "./skills/bpa-spending-behavior"},
-    {"folder": "./skills/bpa-roi-capital"}
+    {"folder": "./skills/bpa-roi-capital"},
+    {"folder": "./skills/bpa-cost-center-profitability"},
+    {"folder": "./skills/bpa-working-capital"},
+    {"folder": "./skills/bpa-revenue-analysis"},
+    {"folder": "./skills/bpa-fixed-assets-capex"}
   ],
   "agentConnectors": [
     {

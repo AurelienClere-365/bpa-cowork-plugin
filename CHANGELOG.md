@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.3.1] — 2026-06-19
+
+### Fixed
+
+- **`package.ps1`** — replaced `Compress-Archive` with a manual `ZipArchive.CreateEntry` loop.
+  `Compress-Archive` (and `ZipFile.CreateFromDirectory`) write backslash separators in ZIP
+  entry names on Windows. M365 Admin Center runs on Linux and matches paths with forward
+  slashes only, causing *"SKILL.md file was not found"* on every upload. Entry names are
+  now always written with forward slashes (`skills/bpa-financial-performance/SKILL.md`).
+
+---
+
 ## [1.1.0] — 2026-06-18
 
 ### Added

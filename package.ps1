@@ -217,7 +217,25 @@ if (Test-Path $skillsSrc) {
     Copy-Item $skillsSrc (Join-Path $tempDir "skills") -Recurse
 }
 
-Compress-Archive -Path "$tempDir\*" -DestinationPath $zipPath
+# Build ZIP manually so entry names use forward slashes (required by M365 Admin
+# Center which runs on Linux — Compress-Archive and ZipFile.CreateFromDirectory
+# both write backslash separators on Windows, causing "SKILL.md not found").
+Add-Type -AssemblyName System.IO.Compression          # ZipArchive, ZipArchiveMode
+Add-Type -AssemblyName System.IO.Compression.FileSystem  # ZipFile
+$zipStream = [System.IO.Compression.ZipFile]::Open($zipPath, [System.IO.Compression.ZipArchiveMode]::Create)
+Push-Location $tempDir
+Get-ChildItem . -Recurse -File | ForEach-Object {
+    # Resolve-Path -Relative returns .\path\to\file — strip leading .\ then use /
+    $entryName = (Resolve-Path -Relative $_.FullName).Replace('.\','').Replace('./', '').Replace('\', '/')
+    $entry  = $zipStream.CreateEntry($entryName)
+    $dest   = $entry.Open()
+    $src    = [System.IO.File]::OpenRead($_.FullName)
+    $src.CopyTo($dest)
+    $src.Close()
+    $dest.Close()
+}
+Pop-Location
+$zipStream.Dispose()
 Remove-Item $tempDir -Recurse -Force
 
 Write-Host ("ZIP created: {0}" -f $zipPath) -ForegroundColor Cyan

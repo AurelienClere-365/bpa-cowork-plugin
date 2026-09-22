@@ -236,7 +236,7 @@ bpa-cowork-plugin/
 > public API and still requires the manual form below.
 >
 > ```powershell
-> .\setup-auth.ps1 -EnvironmentId 6164e44b-836e-e82c-afc2-e4dd59ab3a49
+> .\setup-auth.ps1 -EnvironmentId YOUR_ENVIRONMENT_ID
 > # Prompts you to complete Step 2 in a browser, then paste back the referenceId.
 > ```
 

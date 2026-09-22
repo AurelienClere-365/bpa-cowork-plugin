@@ -65,10 +65,10 @@
     segment of the current version is incremented automatically.
 
 .EXAMPLE
-    .\setup-auth.ps1 -EnvironmentId 6164e44b-836e-e82c-afc2-e4dd59ab3a49
+    .\setup-auth.ps1 -EnvironmentId YOUR_ENVIRONMENT_ID
 
 .EXAMPLE
-    .\setup-auth.ps1 -EnvironmentId 6164e44b-836e-e82c-afc2-e4dd59ab3a49 -NewVersion 1.4.0
+    .\setup-auth.ps1 -EnvironmentId YOUR_ENVIRONMENT_ID -NewVersion 1.4.0
 
 .EXAMPLE
     # Upgrade an existing tenant deployment (auth already configured) from 1.3.1 to 1.4.0

@@ -199,7 +199,7 @@ if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 $include = @(
     'manifest.json', 'README.md', 'CHANGELOG.md', 'CONTRIBUTING.md',
     'PRIVACY.md', 'SECURITY.md', 'LICENSE', 'EXAMPLES.md',
-    'package.ps1', 'color.png', 'outline.png',
+    'package.ps1', 'setup-auth.ps1', 'color.png', 'outline.png',
     'architecture.png', 'architecture.mmd', 'bpa-mcp-tools.json'
 )
 

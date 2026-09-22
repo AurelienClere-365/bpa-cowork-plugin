@@ -94,6 +94,23 @@ _Nothing yet._
 
 ---
 
+## [1.5.0] — 2026-09-22
+
+### Security
+
+- **`manifest.json`** — replaced the committed Power Platform environment ID (in
+  `mcpServerUrl`) and the `OAuthPluginVault` `referenceId` with the placeholders
+  `YOUR_ENVIRONMENT_ID` and `YOUR_OAUTH_REGISTRATION_ID`, matching the values documented
+  in `README.md` Step 1 and the ADO Cowork Plugin template. Use `setup-auth.ps1` (or edit
+  `manifest.json` directly) to fill in your tenant-specific values before packaging.
+
+### Changed
+
+- **`package.ps1`** — added `setup-auth.ps1` to the packaged file list (`$include`), matching
+  the [ADO Cowork Plugin's `package.ps1`](https://github.com/AurelienClere-365/ado-cowork-plugin/blob/dev/package.ps1).
+
+---
+
 ## [1.0.0] — 2026-06-18
 
 ### Added

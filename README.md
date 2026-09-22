@@ -141,6 +141,8 @@ bpa-cowork-plugin/
 ├── outline.png                 32x32 outline icon
 ├── README.md                   This file
 ├── EXAMPLES.md                 Usage examples for all personas
+├── TROUBLESHOOTING.md          Monitoring, debugging & troubleshooting after deployment
+├── setup-auth.ps1              Automates manifest.json auth patch, version bump & repackaging
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── PRIVACY.md
@@ -195,6 +197,15 @@ bpa-cowork-plugin/
 | **A — Skills only** | VS Code prompts folder | Copilot answers from skill instructions (no live data) | None |
 | **B — VS Code mcp.json** | Local HTTP connection | Live DAX queries in VS Code | Azure AD (MSAL device flow) |
 | **C — M365 Copilot (Cowork)** | manifest.json upload to M365 Admin | Full plugin experience + PowerPoint creation | OAuthPluginVault (Entra ID) |
+| **D — Cowork Connectors gallery** | Whole M365 tenant, generic MCP tools only (no curated skills) | Admin-portal wizard (reuses the OAuth registration from Step 2) | OAuthPluginVault (Entra ID) |
+
+> **Option D is not a replacement for Option C.** Registering the BPA MCP server at
+> `admin.cloud.microsoft/#/copilot/connectors/add` → **Create a new connector** gives
+> Cowork raw access to the BPA MCP tools tenant-wide, but **without** this repo's curated
+> `agentSkills/` (finance-persona prompts, tool descriptions in `bpa-mcp-tools.json`,
+> branding). Use it only for quick validation that the MCP connection itself works; use
+> Option C for the full "BPA Analytics" assistant experience. See the callout in
+> [Step 6 — First use — authentication](#6-first-use--authentication) below.
 
 ---
 
@@ -220,6 +231,15 @@ bpa-cowork-plugin/
 
 ---
 
+> **Faster path — `setup-auth.ps1`:** automates steps 1 and 3 below (manifest patch,
+> version bump, changelog entry, and packaging). Step 2 (Teams Developer Portal) has no
+> public API and still requires the manual form below.
+>
+> ```powershell
+> .\setup-auth.ps1 -EnvironmentId 6164e44b-836e-e82c-afc2-e4dd59ab3a49
+> # Prompts you to complete Step 2 in a browser, then paste back the referenceId.
+> ```
+
 ### 1. Prepare the manifest
 
 Edit `manifest.json`:
@@ -233,6 +253,22 @@ Edit `manifest.json`:
    - **Token endpoint**: `https://login.microsoftonline.com/{your-tenant-id}/oauth2/v2.0/token`
    - **Scopes**: `https://service.powerapps.com/.default`
 3. Copy the generated **Reference ID** into `manifest.json → referenceId`.
+
+> **Alternative: skip this repo's curated skills with the Cowork Connectors gallery
+> (Option D).** If you only need Cowork-wide access to the raw BPA MCP tools — and don't
+> need `agentSkills/` (finance-persona prompts, tool filtering, branding) — you can
+> register the connector directly instead of going through `manifest.json`/`package.ps1`:
+>
+> 1. Go to [admin.cloud.microsoft/#/copilot/connectors/add](https://admin.cloud.microsoft/#/copilot/connectors/add)
+>    → **Copilot** → **Connectors** → **Create a new connector**.
+> 2. Point it at the BPA MCP server
+>    (`https://agent365.svc.cloud.microsoft/mcp/environments/YOUR_ENVIRONMENT_ID/servers/msdyn_ERPAnalyticsMCPServer`)
+>    and reuse the same token endpoint/scope from step 2 above when prompted for OAuth details.
+>
+> This bypasses the `manifest.json` patch / `package.ps1` / Agents → All agents upload
+> entirely — the tradeoff is that Cowork only gets generic MCP tool access, not the
+> packaged "BPA Analytics" skillset. Continue with steps 3-4 below for the full curated
+> experience.
 
 ### 3. Build the ZIP
 
@@ -253,6 +289,11 @@ Produces `bpa-analytics-cowork.zip` (all ASKILL checks must pass).
 Ask: *"Show me the BPA plugin tools available."*  
 Expected: the assistant lists `get_bpa_dataset_schema` and `execute_dax_query`.
 
+> If validation fails and the reason isn't obvious, see
+> [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for how to monitor and debug the plugin after
+> deployment — including where to find Entra ID sign-in logs, common failure signatures,
+> and an escalation checklist.
+
 ### 6. First use — authentication
 
 When the plugin first calls the BPA MCP server, M365 Copilot will prompt for consent. Users sign in with their Azure AD account. The token is cached — no re-authentication on subsequent sessions.
@@ -260,6 +301,21 @@ When the plugin first calls the BPA MCP server, M365 Copilot will prompt for con
 ### 7. Updating the plugin
 
 Bump `version` in `manifest.json`, run `.\package.ps1`, re-upload the ZIP in M365 Admin Center. Assigned users receive the update automatically.
+
+**Fastest path — auth already configured:** if the tenant already has the plugin
+installed and working (e.g. upgrading an existing 1.3.1 deployment to 1.4.0+), use
+`-UpdateOnly` — it does **not** touch `mcpServerUrl` or the `authorization` block at all,
+so there is no risk of accidentally breaking an already-working connection:
+
+```powershell
+.\setup-auth.ps1 -UpdateOnly -NewVersion 1.4.0
+# Bumps manifest.json version, updates CHANGELOG.md, re-runs package.ps1.
+# mcpServerUrl and authorization are left exactly as they are today.
+```
+
+Then upload the resulting `bpa-analytics-cowork.zip` via **Agents → All agents → BPA
+Analytics → Update**. Omit `-NewVersion` to auto-increment the patch version instead of
+specifying it explicitly.
 
 ---
 
@@ -353,6 +409,10 @@ See [SECURITY.md](SECURITY.md). In brief:
 - Option B: Azure AD session managed by VS Code — no PAT required.
 - Option C: OAuthPluginVault — tokens never written to disk or source code.
 - Minimum required role: **BPA User** in the target Power Platform environment.
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for how to monitor, debug, and
+troubleshoot the plugin once it's deployed and in use — especially for M365 Copilot,
+where there's no local console or log file to check.
 
 ## Privacy
 

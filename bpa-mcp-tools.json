@@ -8,11 +8,29 @@
   "tools": [
     {
       "name": "get_bpa_dataset_schema",
-      "description": "Returns the full schema of the BPA Power BI dataset — all tables, columns, and their data types. Call this before constructing a DAX query to discover the correct table and column names. The schema covers Record-to-Report, Procure-to-Pay, and Order-to-Cash data marts."
+      "description": "Returns the full schema of the BPA Power BI dataset — all tables, columns, and their data types. Call this before constructing a DAX query to discover the correct table and column names. The schema covers Record-to-Report, Procure-to-Pay, and Order-to-Cash data marts.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
     },
     {
       "name": "execute_dax_query",
-      "description": "Executes a DAX EVALUATE query against the BPA dataset and returns the result as a structured table. Use for P&L analysis, cash flow metrics, AR/AP aging, budget vs actuals variance, vendor performance, period-close status, and CFO KPI dashboards. Always retrieve the schema first with get_bpa_dataset_schema to ensure correct table and column references."
+      "description": "Executes a DAX EVALUATE query against the BPA dataset and returns the result as a structured table. Use for P&L analysis, cash flow metrics, AR/AP aging, budget vs actuals variance, vendor performance, period-close status, and CFO KPI dashboards. Always retrieve the schema first with get_bpa_dataset_schema to ensure correct table and column references.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "daxQuery": {
+            "type": "string",
+            "description": "The DAX EVALUATE query to execute against the BPA Power BI dataset."
+          }
+        },
+        "required": [
+          "daxQuery"
+        ],
+        "additionalProperties": false
+      }
     }
   ]
 }

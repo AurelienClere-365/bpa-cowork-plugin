@@ -67,6 +67,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **README — Deployment table**: removed incorrect F&O MCP row (F&O Cowork is a Microsoft default
   plugin; no custom connector configuration is needed for it).
 
+## [1.4.0] — 2026-09-22
+
+### Added
+
+- **`TROUBLESHOOTING.md`** — post-deployment monitoring/debugging guide covering Entra ID
+  sign-in logs, OAuth registration issues, Power Platform role checks, and an escalation
+  checklist, linked from README.md and the Security section.
+- **`setup-auth.ps1`** — automates the Step 6 manifest patch (environment ID, OAuth
+  `referenceId`), version bump, `CHANGELOG.md` entry, and re-packaging. Supports
+  `-UpdateOnly` for pushing a new version without touching an already-configured
+  `mcpServerUrl`/`authorization` block.
+
+### Changed
+
+- **`bpa-mcp-tools.json`** — added `inputSchema` to `get_bpa_dataset_schema` and
+  `execute_dax_query` so MCP clients can validate tool arguments.
+- **README — Deployment options**: documented the Cowork Connectors gallery (Option D)
+  as an alternative, lower-effort onboarding path that skips the curated `agentSkills/`.
+- **README — Step 6**: documented `setup-auth.ps1` usage and linked
+  `TROUBLESHOOTING.md` from the validation and security sections.
+
 ## [Unreleased]
 
 _Nothing yet._

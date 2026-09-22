@@ -90,6 +90,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+_Nothing yet._
+
+---
+
+## [1.5.0] — 2026-09-22
+
 ### Security
 
 - **`manifest.json`** — replaced the committed Power Platform environment ID (in
